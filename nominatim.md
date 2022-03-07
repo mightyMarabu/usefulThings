@@ -8,9 +8,14 @@ git clone https://github.com/mediagis/nominatim-docker.git
 download country of interest from geofabrik an save it to:
 ___/home/me/nominatimdata___ (host)
 
-build container
+build & run container
 ```
-docker run -t -v /home/me/nominatimdata:/data nominatim  sh /app/init.sh /data/<your_country>.osm.pbf postgresdata 4
+docker run -it --rm \
+  -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
+  -p 8080:8080 \
+  --name nominatim \
+  mediagis/nominatim:3.7
 ```
 # API
 ### example
