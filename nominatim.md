@@ -73,7 +73,8 @@ truncate geo.input;
 insert into geo.input (id, ort, plz, strasse, no)
 --select * from geo.input;
 select 	p_id, ort, plz,
-		trim(regexp_replace(strasse, '[^[:alpha:]\s]', '', 'g')),
+		--trim(regexp_replace(strasse, '[^[:alpha:]\s]', '', 'g')),
+		REGEXP_REPLACE(strasse,'[[:digit:]]','','g'),
 		NULLIF(regexp_replace(strasse, '\D','','g'), '')::numeric
 from patients.patients
 where geom is null
