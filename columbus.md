@@ -15,7 +15,7 @@ group by date
 ```
 ## time format
 ```sql
-elect id, TIME, DATE,
+select id, TIME, DATE,
 		CASE WHEN length(TIME) = 4 THEN '00'||':'||substr(TIME, 1, 2) || ':' || substr(TIME, 3, 2)
 			 WHEN length(TIME) = 5 THEN '0'||substr(TIME, 1,1)|| ':' ||substr(TIME, 2, 2) ||':'|| substr(TIME, 4, 2)
 			 WHEN length(TIME) = 6 THEN substr(TIME, 1,2) || ':' || substr(TIME, 3, 2) || substr(TIME, 5, 2)
@@ -30,4 +30,14 @@ elect id, TIME, DATE,
 
 from "oneday231214" 
 order by id
+```
+## catLog
+```sql
+
+select makeline(makepoint(CAST(replace("Longitude",',','.')as decimal),CAST(replace("Latitude",',','.')as decimal),4326)) as geom,
+date,
+time 
+from log8
+group by date
+
 ```
