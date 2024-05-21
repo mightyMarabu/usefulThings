@@ -41,3 +41,9 @@ from log8
 group by date
 
 ```
+## infoRange API
+```
+select 	*, MakePoint(cast(long as decimal), cast(lat as decimal),4326) as geom							
+	, MakeLine( MakePoint(cast(long as decimal), cast(lat as decimal),4326)) as geom_line
+from gps
+```
