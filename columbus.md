@@ -50,6 +50,43 @@ select  *,
 from wako_diba_complete_gps
 group by date
 ```
+
+### save as table with geom column
+```sql
+CREATE TABLE gps_data (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, -- Optional, for unique row IDs
+    time TEXT,
+    formated_time TEXT,
+    "Longitude E/W" TEXT,
+    "Latitude N/S" TEXT,
+    geom GEOMETRY -- Geometry column
+);
+
+SELECT AddGeometryColumn('gps_data', 'geom', 4326, 'POINT', 'XY');
+
+
+INSERT INTO gps_data (time, formated_time, "Longitude E/W", "Latitude N/S", geom)
+SELECT 
+    TIME,
+    CASE 
+        WHEN length(TIME) = 4 THEN '00'||':'||substr(TIME, 1, 2) || ':' || substr(TIME, 3, 2)
+        WHEN length(TIME) = 5 THEN '0'||substr(TIME, 1, 1)|| ':' ||substr(TIME, 2, 2) ||':'|| substr(TIME, 4, 2)
+        WHEN length(TIME) = 6 THEN substr(TIME, 1, 2) || ':' || substr(TIME, 3, 2) || ':' || substr(TIME, 5, 2)
+        ELSE 'Invalid UTC time' 
+    END as formated_time,
+    "Longitude E/W",
+    "Latitude N/S",
+    MakePoint(
+        CAST(replace(longitude, 'E', '') as decimal),
+        CASE 
+            WHEN latitude like '%S' THEN CAST('-'||replace("Latitude N/S", 'S', '') as decimal) 
+            ELSE CAST(replace(latitude, 'N', '') as decimal) 
+        END,
+        4326
+    ) as geom
+FROM combined_gps_data;
+```
+
 ## catLog
 ```sql
 
