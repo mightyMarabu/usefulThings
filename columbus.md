@@ -58,8 +58,7 @@ CREATE TABLE gps_data (
     time TEXT,
     formated_time TEXT,
     "Longitude E/W" TEXT,
-    "Latitude N/S" TEXT,
-    geom GEOMETRY -- Geometry column
+    "Latitude N/S" TEXT
 );
 
 SELECT AddGeometryColumn('gps_data', 'geom', 4326, 'POINT', 'XY');
@@ -74,8 +73,8 @@ SELECT
         WHEN length(TIME) = 6 THEN substr(TIME, 1, 2) || ':' || substr(TIME, 3, 2) || ':' || substr(TIME, 5, 2)
         ELSE 'Invalid UTC time' 
     END as formated_time,
-    "Longitude E/W",
-    "Latitude N/S",
+    longitude,
+    latitude,
     MakePoint(
         CAST(replace(longitude, 'E', '') as decimal),
         CASE 
