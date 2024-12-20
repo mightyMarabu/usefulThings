@@ -54,19 +54,27 @@ group by date
 ### save as table with geom column
 ```sql
 CREATE TABLE gps_data (
-    id INTEGER PRIMARY KEY AUTOINCREMENT, -- Optional, for unique row IDs
-    time TEXT,
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+	date INTEGER,
+	speed FLOAT,
     formated_time TEXT,
     "Longitude E/W" TEXT,
     "Latitude N/S" TEXT
 );
 
-SELECT AddGeometryColumn('gps_data', 'geom', 4326, 'POINT', 'XY');
+SELECT AddGeometryColumn('gps_data', 'geom', 4326, 'POINT', 'XY')
 
+SELECT *
+--delete 
+FROM gps_data
 
-INSERT INTO gps_data (time, formated_time, "Longitude E/W", "Latitude N/S", geom)
+INSERT INTO gps_data
 SELECT 
-    TIME,
+    ID as id,
+	NAME as name,
+	DATE as date,
+	SPEED as speed,
     CASE 
         WHEN length(TIME) = 4 THEN '00'||':'||substr(TIME, 1, 2) || ':' || substr(TIME, 3, 2)
         WHEN length(TIME) = 5 THEN '0'||substr(TIME, 1, 1)|| ':' ||substr(TIME, 2, 2) ||':'|| substr(TIME, 4, 2)
@@ -83,7 +91,8 @@ SELECT
         END,
         4326
     ) as geom
-FROM combined_gps_data;
+FROM combined_gps_data ;
+
 ```
 
 ## catLog
