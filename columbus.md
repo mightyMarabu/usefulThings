@@ -50,6 +50,24 @@ select  *,
 from wako_diba_complete_gps
 group by date
 ```
+### min max time per day and user
+```
+SELECT id, name, date, speed, formated_time, geom
+FROM gps_data
+WHERE (name,date, formated_time) IN (
+    SELECT name,date, MAX(formated_time)
+    FROM gps_data
+    GROUP BY name, date
+    UNION
+    SELECT name,date, MIN(formated_time)
+    FROM gps_data
+    GROUP BY name, date
+)
+order by date;
+
+```
+
+
 
 ### save as table with geom column
 ```sql
