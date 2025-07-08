@@ -5,13 +5,13 @@ rtrim(string_to_array(  "filename", '_' )[7],'°')
 
 
 ### photo visualisation
-```
+```html
 <img src="file:///[% photo %]" width="350" height="250">
 ```
 
 
 ### ZonalStats
-```
+```sql
 
 select min(date), max(date) from  gpsZonalStat_Laisamis
 
@@ -23,7 +23,7 @@ from import
 ```
 
 ### get GPS points related to NDVI S2
-
+```sql
 select * from gps_data
 where date between 240729 and 240802;
 select * from gps_data
@@ -33,6 +33,5 @@ where date between 240808 and 240812;
 select * from gps_data
 where date between 240813 and 240817;
 select * from gps_data
-where date between 240818 and 240822;```
-
+where date between 240818 and 240822;
 ```
