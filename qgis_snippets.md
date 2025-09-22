@@ -35,3 +35,19 @@ where date between 240813 and 240817;
 select * from gps_data
 where date between 240818 and 240822;
 ```
+
+### season flag
+```
+CASE
+    WHEN month("stop_start") IN (1, 2, 3) and year("stop_start") = 2024 THEN '2024_Dry_1'
+    WHEN month("stop_start") IN (4, 5, 6) and year("stop_start") = 2024 THEN '2024_Wet_1'
+    WHEN month("stop_start") IN (7, 8, 9) and year("stop_start") = 2024 THEN '2024_Dry_2'
+    WHEN month("stop_start") IN (10, 11, 12) and year("stop_start") = 2024 THEN '2024_Wet_2'
+    WHEN month("stop_start") IN (1, 2, 3) and year("stop_start") = 2025 THEN '2025_Dry_1'
+    WHEN month("stop_start") IN (4, 5, 6) and year("stop_start") = 2025 THEN '2025_Wet_1'
+    WHEN month("stop_start") IN (7, 8, 9) and year("stop_start") = 2025 THEN '2025_Dry_2'
+    WHEN month("stop_start") IN (10, 11, 12) and year("stop_start") = 2025 THEN '2025_Wet_2'
+
+    ELSE 'Unknown'
+END
+```
