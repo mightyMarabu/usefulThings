@@ -51,16 +51,30 @@ CASE
     ELSE 'Unknown'
 END
 ```
-### create timestamp
+sqlite update
 ```
--- alter table gps_data add column timestamp text 
-update gps_data
-set timestamp =  datetime(
-        '20' || substr(date,1,2) || '-' ||
-        substr(date,3,2) || '-' ||
-        substr(date,5,2) || ' ' ||
-        time)
-    
+insert into gps_data
+SELECT *,
+    CASE
+        WHEN (("date" / 10000) + 2000) = 2024 AND (("date" / 100 % 100) IN (1,2,3))
+            THEN '2024_Dry_1'
+        WHEN (("date" / 10000) + 2000) = 2024 AND (("date" / 100 % 100) IN (4,5,6))
+            THEN '2024_Wet_1'
+        WHEN (("date" / 10000) + 2000) = 2024 AND (("date" / 100 % 100) IN (7,8,9))
+            THEN '2024_Dry_2'
+        WHEN (("date" / 10000) + 2000) = 2024 AND (("date" / 100 % 100) IN (10,11,12))
+            THEN '2024_Wet_2'
 
--- select time(formated_time) as time from gps_data
+        WHEN (("date" / 10000) + 2000) = 2025 AND (("date" / 100 % 100) IN (1,2,3))
+            THEN '2025_Dry_1'
+        WHEN (("date" / 10000) + 2000) = 2025 AND (("date" / 100 % 100) IN (4,5,6))
+            THEN '2025_Wet_1'
+        WHEN (("date" / 10000) + 2000) = 2025 AND (("date" / 100 % 100) IN (7,8,9))
+            THEN '2025_Dry_2'
+        WHEN (("date" / 10000) + 2000) = 2025 AND (("date" / 100 % 100) IN (10,11,12))
+            THEN '2025_Wet_2'
+
+        ELSE 'Unknown'
+    END AS season
+FROM gps_data_raw;
 ```
