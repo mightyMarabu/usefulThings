@@ -51,3 +51,30 @@ CASE
     ELSE 'Unknown'
 END
 ```
+sqlite update
+```
+insert into gps_data
+SELECT *,
+    CASE
+        WHEN (("date" / 10000) + 2000) = 2024 AND (("date" / 100 % 100) IN (1,2,3))
+            THEN '2024_Dry_1'
+        WHEN (("date" / 10000) + 2000) = 2024 AND (("date" / 100 % 100) IN (4,5,6))
+            THEN '2024_Wet_1'
+        WHEN (("date" / 10000) + 2000) = 2024 AND (("date" / 100 % 100) IN (7,8,9))
+            THEN '2024_Dry_2'
+        WHEN (("date" / 10000) + 2000) = 2024 AND (("date" / 100 % 100) IN (10,11,12))
+            THEN '2024_Wet_2'
+
+        WHEN (("date" / 10000) + 2000) = 2025 AND (("date" / 100 % 100) IN (1,2,3))
+            THEN '2025_Dry_1'
+        WHEN (("date" / 10000) + 2000) = 2025 AND (("date" / 100 % 100) IN (4,5,6))
+            THEN '2025_Wet_1'
+        WHEN (("date" / 10000) + 2000) = 2025 AND (("date" / 100 % 100) IN (7,8,9))
+            THEN '2025_Dry_2'
+        WHEN (("date" / 10000) + 2000) = 2025 AND (("date" / 100 % 100) IN (10,11,12))
+            THEN '2025_Wet_2'
+
+        ELSE 'Unknown'
+    END AS season
+FROM gps_data_raw;
+```
