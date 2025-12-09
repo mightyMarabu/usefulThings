@@ -51,3 +51,16 @@ CASE
     ELSE 'Unknown'
 END
 ```
+### create timestamp
+```
+-- alter table gps_data add column timestamp text 
+update gps_data
+set timestamp =  datetime(
+        '20' || substr(date,1,2) || '-' ||
+        substr(date,3,2) || '-' ||
+        substr(date,5,2) || ' ' ||
+        time)
+    
+
+-- select time(formated_time) as time from gps_data
+```
